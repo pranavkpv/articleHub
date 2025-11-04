@@ -8,4 +8,5 @@ export interface IUserRepository {
    updateTempUserOTP(data: resendOtpData): Promise<boolean>
    findUserByEmail(email: string): Promise<IUserModelEntity | null>
    findUserById(user:string):Promise<IUserModelEntity | null>
+   findUserByEmailOrPhone(data:string):Promise<IUserModelEntity | null>
 }

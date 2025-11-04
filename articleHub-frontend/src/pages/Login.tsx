@@ -27,11 +27,7 @@ const Login: React.FC = () => {
       const { email, password } = formData;
 
       if (!email || !password) {
-         setError('Both email and password are required.');
-         return;
-      }
-      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-         setError('Invalid email format.');
+         setError('Both email or phone and password are required.');
          return;
       }
       if (password.length < 6) {
@@ -43,13 +39,7 @@ const Login: React.FC = () => {
       if (response.success) {
          toast.success(response.message)
          localStorage.setItem('token', response.data.token)
-         if (response.data.role === 'admin') {
-            navigate('/admin/dashboard')
-         } else if (response.data.role === 'user') {
-            navigate('/user/home')
-         } else {
-            navigate('/volunteer')
-         }
+         
       } else {
          toast.error(response.message)
       }
@@ -76,16 +66,15 @@ const Login: React.FC = () => {
 
                <form onSubmit={validateForm} className="space-y-4">
                   <div>
-                     <label htmlFor="email" className="block text-sm font-medium text-gray-700">Email Address</label>
+                     <label htmlFor="text" className="block text-sm font-medium text-gray-700">Email Address or Phone Number</label>
                      <input
-                        type="email"
+                        type="text"
                         id="email"
                         name="email"
                         value={formData.email}
                         onChange={handleChange}
                         placeholder="Enter your email"
                         className="mt-1 w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
-                        required
                      />
                   </div>
                   <div>
@@ -98,7 +87,6 @@ const Login: React.FC = () => {
                         onChange={handleChange}
                         placeholder="Enter your password"
                         className="mt-1 w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
-                        required
                      />
                   </div>
                   <button

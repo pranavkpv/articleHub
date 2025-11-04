@@ -15,12 +15,12 @@ export class LoginUserUseCase implements ILoginUserUseCase {
 
   async execute(data: loginData): Promise<loginOutput> {
 
-    const user = await this._userRepository.findUserByEmail(data.email);
+    const user = await this._userRepository.findUserByEmailOrPhone(data.email);
 
     if (!user) {
       return {
         success: false,
-        message: 'email not exist',
+        message: 'user not exist',
         status: HTTP_STATUS.CONFLICT,
         data: { accessToken: "", refreshToken: "", role: "" },
       };

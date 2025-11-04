@@ -9,12 +9,12 @@ export class UserRepository implements IUserRepository {
       const key = `tempUser:${ user.email }`;
       await redis.hset(key, {
          firstname: user.firstname,
-         lastname:user.lastname,
+         lastname: user.lastname,
          email: user.email,
          phone: user.phone.toString(),
          password: user.password,
-         DOB:user.DOB,
-         preference:JSON.stringify(user.preference),
+         DOB: user.DOB,
+         preference: JSON.stringify(user.preference),
          otp: user.otp,
          otpCreatedAt: user.otpCreatedAt.toISOString(),
       });
@@ -30,12 +30,12 @@ export class UserRepository implements IUserRepository {
 
       const tempUser: tempUserData = {
          firstname: data.firstname || '',
-         lastname:data.lastname || '',
+         lastname: data.lastname || '',
          email: data.email || '',
          phone: data.phone || '',
          password: data.password || '',
-         DOB:data.DOB || '',
-         preference: data.preference ? JSON.parse(data.preference) : [] ,
+         DOB: data.DOB || '',
+         preference: data.preference ? JSON.parse(data.preference) : [],
          otp: data.otp || '',
          otpCreatedAt: data.otpCreatedAt ? new Date(data.otpCreatedAt) : new Date(),
       };
@@ -61,6 +61,9 @@ export class UserRepository implements IUserRepository {
       return await userDB.findOne({ email })
    }
    async findUserById(user: string): Promise<IUserModelEntity | null> {
-       return await userDB.findById(user)
+      return await userDB.findById(user)
+   }
+   async findUserByEmailOrPhone(data: string): Promise<IUserModelEntity | null> {
+      return await userDB.findOne({ $or: [{ email: data }, { phone: data }] })
    }
 }

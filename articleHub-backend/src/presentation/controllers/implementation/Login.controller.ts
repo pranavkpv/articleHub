@@ -13,19 +13,15 @@ export class LoginController implements ILoginController {
    ) { }
    loginUser = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
       try {
-        
-
          const response = await this._loginUserUseCase.execute(req.body);
-
          if (!response.success) {
             res.status(response.status).json({ success: response.success, message: response.message });
             return;
          }
-
          res.cookie('refreshToken', response.data.refreshToken, {
             httpOnly: true,
-            secure: true,           // requires HTTPS
-            sameSite: 'none',       // allow cross-site
+            secure: true,           
+            sameSite: 'none',      
             maxAge: 24 * 60 * 60 * 1000,
          });
 
