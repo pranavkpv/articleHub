@@ -12,7 +12,6 @@ export class SignupController implements ISignupController {
    ) { }
    signupUser = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
       try {
-         console.log("haiiii this is signup")
          const response = await this._saveUserDataTemporarilyUseCase.execute(req.body)
          res.status(response.status).json({ success: response.success, message: response.message })
       } catch (error) {

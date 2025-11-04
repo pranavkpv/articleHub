@@ -1,38 +1,79 @@
-import React, { useState, type FormEvent } from 'react';
+import React, { useEffect, useState, type FormEvent } from 'react';
 import eventBg from '../assets/event-bg.png'
 import Input from '../reusable/Input';
-import UserSubmitButton from '../components/UserSubmitButton';
+import UserSubmitButton from '../reusable/UserSubmitButton';
 import { toast } from 'react-toastify';
-import type { commonResponse } from '../interfaces/response';
 import type { signupData } from '../interfaces/user';
 import { signupUser } from '../api/userAuth';
 import { Link, useNavigate } from 'react-router-dom';
+import type { categoryData } from '../interfaces/category';
+import { listCategoryApi } from '../api/category';
+// import listCategoryApi from your APIs
 
 const Signup: React.FC = () => {
    const [formData, setFormData] = useState<signupData>({
-      username: '',
+      firstname: '',
+      lastname: '',
       email: '',
       phone: '',
       password: '',
       confirmPassword: '',
+      DOB: '',
+      preference: []
    });
+   const [categories, setCategories] = useState<categoryData[]>([]);
    const [error, setError] = useState<string>('');
-   const navigate = useNavigate()
+   const navigate = useNavigate();
+
+   const fetchCategory = async () => {
+      const categoryData = await listCategoryApi();
+      if (categoryData.success) {
+         setCategories(categoryData.data);
+      } else {
+         toast.error(categoryData.message);
+      }
+   };
+
+   useEffect(() => {
+      fetchCategory();
+   }, []);
 
    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
       const { name, value } = e.target;
-      setFormData((prev) => ({ ...prev, [name]: value }));
+      setFormData((prev) => ({
+         ...prev,
+         [name]: value,
+      }));
+   };
+
+   const handleCategoryChange = (categoryId: string) => {
+      setFormData((prev) => {
+         const alreadySelected = prev.preference.includes(categoryId);
+         return {
+            ...prev,
+            preference: alreadySelected
+               ? prev.preference.filter((id) => id !== categoryId)
+               : [...prev.preference, categoryId]
+         };
+      });
+   };
+
+   const handleDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+      setFormData((prev) => ({
+         ...prev,
+         DOB: e.target.value
+      }));
    };
 
    const validateForm = async (e: FormEvent) => {
       e.preventDefault();
-      const { username, email, phone, password, confirmPassword } = formData;
+      const { firstname, lastname, email, phone, password, confirmPassword, preference, DOB } = formData;
 
-      if (!username || !email || !phone || !password || !confirmPassword) {
+      if (!firstname || !lastname || !email || !phone || !password || !confirmPassword || !DOB) {
          setError('All fields are required.');
          return;
       }
-      if (!/^[a-zA-Z\s]+$/.test(username)) {
+      if (!/^[a-zA-Z\s]+$/.test(firstname)) {
          setError('Name should only contain letters and spaces.');
          return;
       }
@@ -52,14 +93,18 @@ const Signup: React.FC = () => {
          setError('Passwords do not match.');
          return;
       }
+      if (preference.length === 0) {
+         setError('Please select at least one preference.');
+         return;
+      }
 
       setError('');
-      const response: commonResponse = await signupUser(formData)
+      const response = await signupUser(formData);
       if (response.success) {
-         toast.success(response.message)
-         navigate('/verifyotp', { state: { email: formData.email } })
+         toast.success(response.message);
+         navigate('/verifyotp', { state: { email: formData.email } });
       } else {
-         toast.error(response.message)
+         toast.error(response.message);
       }
    };
 
@@ -83,13 +128,44 @@ const Signup: React.FC = () => {
                {error && <p className="text-red-500 text-center mb-4">{error}</p>}
 
                <form onSubmit={validateForm} className="space-y-4">
-                  <Input handle={handleChange} id='username' labelname='Full Name' type='text' value={formData.username} placeholder="Enter your full name" />
-                  <Input type="email" id="email" value={formData.email} handle={handleChange} labelname="Email Address" placeholder="Enter your email" />
-                  <Input type="tel" id="phone" value={formData.phone} handle={handleChange} labelname="Phone Number" placeholder="Enter your phone number" />
-                  <Input type="password" id="password" value={formData.password} handle={handleChange} labelname="Password" placeholder="Create a password" />
-                  <Input type="password" id="confirmPassword" value={formData.confirmPassword} handle={handleChange} labelname="Confirm Password" placeholder="Confirm your password" />
-                  <UserSubmitButton buttonValue='Sign Up' />
+                  <Input handle={handleChange} id="firstname" name="firstname" labelname="First Name" type="text" value={formData.firstname} placeholder="Enter your first name" />
+                  <Input handle={handleChange} id="lastname" name="lastname" labelname="Last Name" type="text" value={formData.lastname} placeholder="Enter your last name" />
+                  <Input type="email" id="email" name="email" value={formData.email} handle={handleChange} labelname="Email Address" placeholder="Enter your email" />
+                  <Input type="tel" id="phone" name="phone" value={formData.phone} handle={handleChange} labelname="Phone Number" placeholder="Enter your phone number" />
+                  <Input type="password" id="password" name="password" value={formData.password} handle={handleChange} labelname="Password" placeholder="Create a password" />
+                  <Input type="password" id="confirmPassword" name="confirmPassword" value={formData.confirmPassword} handle={handleChange} labelname="Confirm Password" placeholder="Confirm your password" />
+
+                  {/* DOB Field */}
+                  <label htmlFor="DOB" className="block text-gray-700">Date of Birth</label>
+                  <input
+                     type="date"
+                     id="DOB"
+                     name="DOB"
+                     value={formData.DOB}
+                     onChange={handleDateChange}
+                     className="w-full border px-4 py-2 rounded-lg bg-gray-100 focus:outline-none focus:border-indigo-500"
+                  />
+
+                  {/* Category Preferences */}
+                  <label className="block text-gray-700">Category Preferences</label>
+                  <ul className="flex flex-wrap gap-2 mb-2">
+                     {categories.map((element: categoryData) => (
+                        <li key={element._id} className="flex items-center">
+                           <input
+                              type="checkbox"
+                              id={element._id}
+                              checked={formData.preference.includes(element._id)}
+                              onChange={() => handleCategoryChange(element._id)}
+                              className="mr-2"
+                           />
+                           <label htmlFor={element._id}>{element.name}</label>
+                        </li>
+                     ))}
+                  </ul>
+
+                  <UserSubmitButton buttonValue="Sign Up" />
                </form>
+
                <p className="text-center text-gray-600 mt-4">
                   Already have an account?{' '}
                   <Link to="/login" className="text-indigo-600 hover:underline">Log in</Link>

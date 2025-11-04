@@ -1,11 +1,11 @@
 export interface IUserModelEntity {
    _id:string
-   username: string
+   firstname:string
+   lastname: string
    email: string
    phone: string
    password: string
-   profile_image: string
    DOB: Date
-   googleId: string
+   preferences:string[]
 }
 

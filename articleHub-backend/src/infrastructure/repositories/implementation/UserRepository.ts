@@ -8,10 +8,13 @@ export class UserRepository implements IUserRepository {
    async saveUser(user: tempUserData): Promise<boolean> {
       const key = `tempUser:${ user.email }`;
       await redis.hset(key, {
-         username: user.username,
+         firstname: user.firstname,
+         lastname:user.lastname,
          email: user.email,
          phone: user.phone.toString(),
          password: user.password,
+         DOB:user.DOB,
+         preference:JSON.stringify(user.preference),
          otp: user.otp,
          otpCreatedAt: user.otpCreatedAt.toISOString(),
       });
@@ -26,10 +29,13 @@ export class UserRepository implements IUserRepository {
       }
 
       const tempUser: tempUserData = {
-         username: data.username || '',
+         firstname: data.firstname || '',
+         lastname:data.lastname || '',
          email: data.email || '',
          phone: data.phone || '',
          password: data.password || '',
+         DOB:data.DOB || '',
+         preference: data.preference ? JSON.parse(data.preference) : [] ,
          otp: data.otp || '',
          otpCreatedAt: data.otpCreatedAt ? new Date(data.otpCreatedAt) : new Date(),
       };

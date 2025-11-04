@@ -1,7 +1,7 @@
 import type { AxiosError } from "axios";
 import authAxios from "../axios/authAxios";
 import type { loginData, signupData, verifyOtpData } from "../interfaces/user";
-import type { commonResponse, loginResponse } from "../interfaces/response";
+import type { commonResponse, loginResponse } from "../interfaces/output";
 
 export const signupUser = async (data: signupData): Promise<commonResponse> => {
   try {

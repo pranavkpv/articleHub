@@ -1,5 +1,6 @@
 import type { InputProp } from "../interfaces/prop"
 
+
 function Input({type,id,value,handle,labelname,placeholder}:InputProp) {
    return (
       <div>

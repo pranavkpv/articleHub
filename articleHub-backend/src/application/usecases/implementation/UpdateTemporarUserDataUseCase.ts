@@ -1,5 +1,4 @@
-import { commonOutput } from "../../../domain/entities/output";
-import { Otp } from "../../../domain/shared/messages/otp";
+import { commonOutput } from "../../../domain/entities/common";
 import { HTTP_STATUS } from "../../../domain/shared/Status";
 import { sendEmail } from "../../../domain/shared/utils/nodemailer";
 import { IUserRepository } from "../../../infrastructure/repositories/interface/IUserRepository";
@@ -13,7 +12,7 @@ export class UpdateTemporarUserDataUseCase implements IUpdateTemporarUserDataUse
       const existUser = await this._userRepository.findTempUserByEmail(email);
       if (existUser) {
          const otp = (Math.floor(100000 + Math.random() * 900000)).toString();
-         const text = `Dear ${ existUser.username }, your One-Time Password (OTP) for signing up with BuildERP is ${ otp }. Do not share this code with anyone.`;
+         const text = `Dear ${ existUser.firstname } ${existUser.lastname}, your One-Time Password (OTP) for signing up with BuildERP is ${ otp }. Do not share this code with anyone.`;
          const emailSend = await sendEmail(existUser.email, 'OTP verification', text);
 
          if (emailSend) {
@@ -22,20 +21,20 @@ export class UpdateTemporarUserDataUseCase implements IUpdateTemporarUserDataUse
             await this._userRepository.updateTempUserOTP({ email, otp, otpCreatedAt });
             return {
                success: true,
-               message: Otp.send,
+               message: "otp send",
                status: HTTP_STATUS.OK
             }
          } else {
             return {
                success: false,
-               message: Otp.sendFail,
+               message: "Otp.sendFail",
                status: HTTP_STATUS.CONFLICT
             }
          }
       }
       return {
          success: false,
-         message: Otp.sendFail,
+         message: "Otp.sendFail",
          status: HTTP_STATUS.CONFLICT
       }
 

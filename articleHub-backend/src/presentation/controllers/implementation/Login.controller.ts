@@ -1,10 +1,8 @@
 import { Request, Response, NextFunction } from "express";
 import { ILoginController } from "../interface/ILogin.controller";
 import { ILoginUserUseCase } from "../../../application/usecases/interface/ILoginUserUseCase";
-import { Email } from "../../../domain/shared/messages/email";
 import { HTTP_STATUS } from "../../../domain/shared/Status";
 import { IRefreshTokenUsecase } from "../../../application/usecases/interface/IRefreshTokenUsecase";
-import { token } from "../../../domain/shared/messages/token";
 import { IToken } from "../../../application/services/interface/IToken";
 
 export class LoginController implements ILoginController {
@@ -33,7 +31,7 @@ export class LoginController implements ILoginController {
 
          res.status(response.status).json({
             success: response.success,
-            message: Email.login,
+            message:" Email.login",
             data: { token: response.data.accessToken, role: response.data.role }
          });
       } catch (error) {
@@ -46,7 +44,7 @@ export class LoginController implements ILoginController {
       try {
          const refreshToken = req.cookies.refreshToken;
          if (!refreshToken) {
-            res.status(HTTP_STATUS.BAD_REQUEST).json({ success: false, message: token.no_token, data: '' })
+            res.status(HTTP_STATUS.BAD_REQUEST).json({ success: false, message: "token.no_token", data: '' })
             return
          }
          const data = await this._refreshTokenUseCase.execute(refreshToken);
@@ -61,24 +59,22 @@ export class LoginController implements ILoginController {
          const accessToken = userHeader?.split(' ')[1];
 
          if (!accessToken) {
-            res.status(HTTP_STATUS.UNAUTHORIZED).json({ success: false, message: token.invalid_accessToken });
+            res.status(HTTP_STATUS.UNAUTHORIZED).json({ success: false, message: "token.invalid_accessToken "});
             return;
          }
 
          try {
             await this._jwtservice.verifyAccessToken(accessToken);
          } catch {
-            // token might be expired, continue to clear cookies anyway
+            
          }
-
-         // ✅ clear the correct cookie (refreshToken)
          res.clearCookie('refreshToken', {
             httpOnly: true,
             sameSite: 'lax',
             secure: process.env.NODE_ENV === 'production',
          });
 
-         res.status(HTTP_STATUS.OK).json({ success: true, message: token.logout });
+         res.status(HTTP_STATUS.OK).json({ success: true, message: "token.logout" });
       } catch (error) {
          next(error);
       }

@@ -2,9 +2,6 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import UserRoute from "./router/Router";
 
-
-
-
 function App() {
   return (
     <>

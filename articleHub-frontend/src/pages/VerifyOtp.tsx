@@ -3,8 +3,8 @@ import eventBg from '../assets/event-bg.png'
 import Input from '../reusable/Input';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import type { commonResponse } from '../interfaces/response';
 import { ResendUserOTP, VerifyUserOTP } from '../api/userAuth';
+import type { commonResponse } from '../interfaces/output';
 
 const VerifyOTP: React.FC = () => {
    const [otp, setOtp] = useState<string>('');

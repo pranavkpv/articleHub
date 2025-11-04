@@ -2,7 +2,7 @@ import mongoose from 'mongoose';
 import { IUserModelEntity } from '../interface/user';
 
 export const userSchema = new mongoose.Schema<IUserModelEntity>({
-   username: {
+   firstname: {
       type: String,
       required: true,
    },
@@ -18,14 +18,15 @@ export const userSchema = new mongoose.Schema<IUserModelEntity>({
       type: String,
       required: true,
    },
-   profile_image: {
+   lastname: {
       type: String,
    },
    DOB: {
       type: Date
    },
-   googleId: {
-      type: String,
+   preferences: {
+      type: [String],
    },
+
 
 }, { timestamps: true });

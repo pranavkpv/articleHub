@@ -1,7 +1,5 @@
-import { commonOutput } from "../../../domain/entities/output";
+import { commonOutput } from "../../../domain/entities/common";
 import { registerUserData, verifyOtpData } from "../../../domain/entities/user";
-import { Otp } from "../../../domain/shared/messages/otp";
-import { signup } from "../../../domain/shared/messages/signup";
 import { HTTP_STATUS } from "../../../domain/shared/Status";
 import { IUserRepository } from "../../../infrastructure/repositories/interface/IUserRepository";
 import { IHasher } from "../../services/interface/IHasher";
@@ -17,14 +15,14 @@ export class CheckTemporarUserDataUseCase implements ICheckTemporarUserDataUseCa
       if (!TempuserByEmail) {
          return {
             success: false,
-            message: signup.failed,
+            message: "signup failed",
             status: HTTP_STATUS.CONFLICT
          }
       }
       if (TempuserByEmail.otp !== data.otp) {
          return {
             success: false,
-            message: Otp.wrong,
+            message: "wrong otp",
             status: HTTP_STATUS.CONFLICT
          }
       }
@@ -33,19 +31,22 @@ export class CheckTemporarUserDataUseCase implements ICheckTemporarUserDataUseCa
          email: TempuserByEmail.email,
          password: hashedPassword,
          phone: TempuserByEmail.phone,
-         username: TempuserByEmail.username
+         firstname: TempuserByEmail.firstname,
+         lastname:TempuserByEmail.lastname,
+         DOB:TempuserByEmail.DOB,
+         preferences:TempuserByEmail.preference
       }
       const saveUser = await this._userRepository.registerUser(userData)
       if (!saveUser) {
          return {
             success: false,
-            message: signup.failed,
+            message: "signup failed",
             status: HTTP_STATUS.CONFLICT
          }
       }
       return {
          success: true,
-         message: signup.success,
+         message: "signup success",
          status: HTTP_STATUS.CREATED
       }
    }

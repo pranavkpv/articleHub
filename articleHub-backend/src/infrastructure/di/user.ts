@@ -7,22 +7,19 @@ import { SaveUserDataTemporarlyUseCase } from "../../application/usecases/implem
 import { UpdateTemporarUserDataUseCase } from "../../application/usecases/implementation/UpdateTemporarUserDataUseCase";
 import { LoginController } from "../../presentation/controllers/implementation/Login.controller";
 import { SignupController } from "../../presentation/controllers/implementation/Signup.controller";
-import { AdminRepository } from "../repositories/implementation/AdminRepository";
 import { UserRepository } from "../repositories/implementation/UserRepository";
-import { VolunteerRepository } from "../repositories/implementation/VolunteerRepository";
 
 const userRepository = new UserRepository()
 const hasher = new Hasher()
-const token = new Token()
-const vounteerRepository = new VolunteerRepository()
-const adminRepository = new AdminRepository()
+const token = new Token() 
+
 
 
 const saveUserDataTemporarilyUseCase = new SaveUserDataTemporarlyUseCase(userRepository)
 const checkTemporarUserDataUseCase = new CheckTemporarUserDataUseCase(userRepository,hasher)
 const updateTemporarUserDataUseCase = new UpdateTemporarUserDataUseCase(userRepository)
-const loginUserUseCase = new LoginUserUseCase(userRepository,hasher,token,vounteerRepository)
-const refreshTokenUseCase = new RefreshTokenUseCase(userRepository,token,vounteerRepository,adminRepository)
+const loginUserUseCase = new LoginUserUseCase(userRepository,hasher,token)
+const refreshTokenUseCase = new RefreshTokenUseCase(userRepository,token)
 
 export const injectedSignupController = new SignupController(saveUserDataTemporarilyUseCase,checkTemporarUserDataUseCase,updateTemporarUserDataUseCase)
 export const injectLoginController = new LoginController(loginUserUseCase,refreshTokenUseCase,token)

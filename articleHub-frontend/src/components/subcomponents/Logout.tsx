@@ -1,5 +1,4 @@
 import { toast } from "react-toastify"
-import type { addProp } from "../../interfaces/prop"
 import { LogoutApi } from "../../api/userAuth"
 import { MdClose } from 'react-icons/md';
 import { IoIosLogOut } from "react-icons/io";

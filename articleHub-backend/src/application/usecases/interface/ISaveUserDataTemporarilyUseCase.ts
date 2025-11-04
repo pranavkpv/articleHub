@@ -1,4 +1,5 @@
-import { commonOutput } from "../../../domain/entities/output";
+
+import { commonOutput } from "../../../domain/entities/common";
 import { signupData } from "../../../domain/entities/user";
 
 export interface ISaveUserDataTemporarilyUseCase {

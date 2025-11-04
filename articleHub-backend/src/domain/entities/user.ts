@@ -1,16 +1,22 @@
 export interface signupData {
-   username: string;
+   firstname: string;
+   lastname: string;
    email: string;
    phone: string;
    password: string;
    confirmPassword: string;
+   DOB:string;
+   preference:string[]
 }
 
 export interface tempUserData {
-   username: string;
+   firstname: string;
+   lastname: string;
    email: string;
    phone: string;
    password: string;
+   DOB:string;
+   preference:string[]
    otp: string;
    otpCreatedAt: Date
 }
@@ -22,10 +28,13 @@ export interface verifyOtpData {
 
 
 export interface registerUserData {
-   username: string
+   firstname: string
+   lastname: string
    email: string
    phone: string
    password: string
+    DOB:string;
+   preferences:string[]
 }
 
 export interface resendOtpData {
@@ -58,4 +67,18 @@ export interface JwtPayloadData extends generateTokenData {
 export interface foodAdd {
    userId: string
    eventId: string
+}
+
+export interface loginOutput {
+   success: boolean
+   message: string
+   status: number
+   data: tokenData
+}
+
+export interface refreshOutput {
+   success: boolean
+   message: string
+   status: number
+   data: string
 }

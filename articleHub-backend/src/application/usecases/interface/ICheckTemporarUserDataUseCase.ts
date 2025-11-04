@@ -1,4 +1,4 @@
-import { commonOutput } from "../../../domain/entities/output";
+import { commonOutput } from "../../../domain/entities/common";
 import { verifyOtpData } from "../../../domain/entities/user";
 
 export interface ICheckTemporarUserDataUseCase {

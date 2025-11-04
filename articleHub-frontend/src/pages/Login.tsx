@@ -2,9 +2,9 @@ import React, { useState, type FormEvent } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import eventBg from '../assets/event-bg.png'
 import type { loginData } from '../interfaces/user';
-import type { loginResponse } from '../interfaces/response';
 import { userLogin } from '../api/userAuth';
 import { toast } from 'react-toastify';
+import type { loginResponse } from '../interfaces/output';
 
 
 

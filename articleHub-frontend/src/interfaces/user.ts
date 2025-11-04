@@ -1,9 +1,12 @@
 export interface signupData {
-   username: string;
+   firstname: string;
+   lastname:string;
    email: string;
    phone: string;
    password: string;
    confirmPassword: string;
+   DOB:string
+   preference:string[]
 }
 
 export interface verifyOtpData {

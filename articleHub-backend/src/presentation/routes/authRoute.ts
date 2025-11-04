@@ -2,6 +2,7 @@ import { Router } from 'express';
 import { injectedSignupController, injectLoginController } from '../../infrastructure/di/user';
 import { validateResendOtp, validateSignup, validateVerifyOTP } from '../middleware/validations/signup';
 import { validateLogin } from '../middleware/validations/login';
+import { injectedCategoryController } from '../../infrastructure/di/category';
 
 
 export class authRoute {
@@ -39,5 +40,11 @@ export class authRoute {
          '/logout',
          injectLoginController.logoutHandler
       );
+      //get all category for select preference for user
+      this.authRoute.get(
+         '/category',
+         injectedCategoryController.listAllCategory
+      );
+
    }
 }
