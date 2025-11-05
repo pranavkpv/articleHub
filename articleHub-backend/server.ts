@@ -9,6 +9,8 @@ import { errorHandler } from './src/presentation/middleware/ErrorHandler/errorHa
 import fileUpload from "express-fileupload";
 import { connectMongo } from './src/infrastructure/db/connectDB';
 import { categoryDB } from './src/infrastructure/db/model/category';
+import { articleRoute } from './src/presentation/routes/articleRoute';
+import { userRoute } from './src/presentation/routes/userRoutes';
 async function call() {
    const newCategory = new categoryDB({
       name: "sports"
@@ -31,6 +33,7 @@ export class App {
       this.setMiddlewares();
       this.setAuthRoute()
       this.setArticleRoute()
+      this.setUserRoute()
       this.setErrorHandler();
       this.database = new connectMongo()
       this.database.connectDB()
@@ -73,7 +76,10 @@ export class App {
       this.app.use('/api/auth', new authRoute().authRoute)
    }
    private setArticleRoute() {
-      this.app.use('/api/article', new authRoute().authRoute)
+      this.app.use('/api/article', new articleRoute().articleRoute)
+   }
+   private setUserRoute() {
+      this.app.use('/api/user', new userRoute().userRoute)
    }
    private setErrorHandler() {
       this.app.use(errorHandler);

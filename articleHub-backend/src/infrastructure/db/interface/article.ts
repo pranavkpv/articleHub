@@ -5,6 +5,7 @@ export interface IArticleModelEntity {
    tags: string[],
    category: string,
    createdBy: string,
+   deletedStatus:boolean
    createdAt: Date,
    updatedAt: Date,
 }

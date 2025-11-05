@@ -21,6 +21,11 @@ export const articleSchema = new mongoose.Schema<IArticleModelEntity>({
    createdBy: {
       type: String,
       required: true
+   },
+   deletedStatus: {
+      type: Boolean,
+      required: true,
+      default: false
    }
 }, { timestamps: true });
 

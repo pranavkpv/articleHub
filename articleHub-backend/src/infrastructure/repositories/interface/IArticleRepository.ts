@@ -6,4 +6,5 @@ export interface IArticleRepository {
    disLikeArticle(data:likeData):Promise<void>
    blockArticle(data:likeData):Promise<void>
    editArticle(data:editArticle):Promise<void>
+   deleteArticle(id:string):Promise<void>
 }

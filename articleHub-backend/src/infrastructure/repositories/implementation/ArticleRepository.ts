@@ -26,4 +26,7 @@ export class ArticleRepository implements IArticleRepository {
         const {_id,category,description,image,tags,title} = data
         await articleDB.findByIdAndUpdate(_id,{category,description,image,tags,title})
     }
+    async deleteArticle(id: string): Promise<void> {
+        await articleDB.findByIdAndUpdate(id,{deletedStatus:true})
+    }
 }

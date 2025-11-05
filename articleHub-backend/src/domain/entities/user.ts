@@ -82,3 +82,13 @@ export interface refreshOutput {
    status: number
    data: string
 }
+
+export interface editPassword {
+   _id:string 
+   currentpassword:string 
+   newpassword:string
+}
+export interface editPasswordRepo{
+   _id:string 
+   password:string
+}

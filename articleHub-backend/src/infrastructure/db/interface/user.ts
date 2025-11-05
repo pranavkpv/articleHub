@@ -6,6 +6,7 @@ export interface IUserModelEntity {
    phone: string
    password: string
    DOB: Date
+   image:string
    preferences:string[]
 }
 

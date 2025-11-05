@@ -25,8 +25,12 @@ export class articleRoute {
          injectedArticleController.blockArticle
       );
       this.articleRoute.put(
-         '/edit',
+         '/edit/:id',
          injectedArticleController.editArticle
+      );
+       this.articleRoute.patch(
+         '/delete/:id',
+         injectedArticleController.deleteArticle
       );
    }
 }

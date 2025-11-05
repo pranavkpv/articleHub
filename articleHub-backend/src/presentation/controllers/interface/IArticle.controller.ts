@@ -11,4 +11,6 @@ export interface IArticleController {
       Promise<void>
    editArticle(req: Request, res: Response, next: NextFunction):
       Promise<void>
+   deleteArticle(req: Request, res: Response, next: NextFunction):
+      Promise<void>
 }
