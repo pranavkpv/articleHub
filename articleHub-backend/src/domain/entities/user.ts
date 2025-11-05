@@ -5,8 +5,8 @@ export interface signupData {
    phone: string;
    password: string;
    confirmPassword: string;
-   DOB:string;
-   preference:string[]
+   DOB: string;
+   preference: string[]
 }
 
 export interface tempUserData {
@@ -15,8 +15,8 @@ export interface tempUserData {
    email: string;
    phone: string;
    password: string;
-   DOB:string;
-   preference:string[]
+   DOB: string;
+   preference: string[]
    otp: string;
    otpCreatedAt: Date
 }
@@ -33,8 +33,8 @@ export interface registerUserData {
    email: string
    phone: string
    password: string
-    DOB:string;
-   preferences:string[]
+   DOB: string;
+   preferences: string[]
 }
 
 export interface resendOtpData {
@@ -84,11 +84,22 @@ export interface refreshOutput {
 }
 
 export interface editPassword {
-   _id:string 
-   currentpassword:string 
-   newpassword:string
+   _id: string
+   currentpassword: string
+   newpassword: string
 }
-export interface editPasswordRepo{
-   _id:string 
-   password:string
+export interface editPasswordRepo {
+   _id: string
+   password: string
+}
+
+export interface getuserProfileData {
+   _id: string
+   firstname: string
+   lastname: string
+   email: string
+   phone: string
+   DOB: Date;
+   preferences: string[]
+   image:string
 }

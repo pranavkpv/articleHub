@@ -17,5 +17,9 @@ export class userRoute {
          '/edit-password',
          injectedUserController.editPassword
       );
+      this.userRoute.get(
+         '/profile',
+         injectedUserController.getProfile
+      );
    }
 }

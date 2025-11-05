@@ -5,4 +5,6 @@ export interface IUserController {
       Promise<void>
    editPassword(req: Request, res: Response, next: NextFunction):
       Promise<void>
+   getProfile(req: Request, res: Response, next: NextFunction):
+      Promise<void>
 }

@@ -28,9 +28,17 @@ export class articleRoute {
          '/edit/:id',
          injectedArticleController.editArticle
       );
-       this.articleRoute.patch(
+      this.articleRoute.patch(
          '/delete/:id',
          injectedArticleController.deleteArticle
+      );
+      this.articleRoute.get(
+         '/user-article',
+         injectedArticleController.getUserBaseArticle
+      );
+      this.articleRoute.get(
+         '/all-article',
+         injectedArticleController.getPreferenceBaseArticle
       );
    }
 }

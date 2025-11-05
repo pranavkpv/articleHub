@@ -1,4 +1,5 @@
 export interface IArticleModelEntity {
+   _id:string
    title: string,
    description: string,
    image: string,

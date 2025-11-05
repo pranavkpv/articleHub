@@ -13,4 +13,8 @@ export interface IArticleController {
       Promise<void>
    deleteArticle(req: Request, res: Response, next: NextFunction):
       Promise<void>
+   getUserBaseArticle(req: Request, res: Response, next: NextFunction):
+      Promise<void>
+   getPreferenceBaseArticle(req: Request, res: Response, next: NextFunction):
+      Promise<void>
 }

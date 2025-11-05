@@ -1,3 +1,7 @@
+import { IArticleModelEntity } from "../../infrastructure/db/interface/article"
+import { ILikeModelEntity } from "../../infrastructure/db/interface/like"
+import { IUserModelEntity } from "../../infrastructure/db/interface/user"
+
 export interface addArticle {
    title: string,
    description: string,
@@ -13,10 +17,35 @@ export interface likeData {
 }
 
 export interface editArticle {
+   _id: string
+   title: string,
+   description: string,
+   image: string,
+   tags: string[],
+   category: string,
+}
+
+export interface getUserBaseArticleData {
    _id:string
    title: string,
    description: string,
    image: string,
    tags: string[],
    category: string,
+   like: string[],//username
+   dislike: string[]//username
+   block: string[]//username
+}
+
+export interface likeAggregateUser extends ILikeModelEntity {
+   userDetails:IUserModelEntity
+}
+
+
+export interface getPreferenceBaseArticleData extends getUserBaseArticleData {
+   username:string
+}
+
+export interface articleAggregateByUser extends IArticleModelEntity {
+   userDetails:IUserModelEntity
 }

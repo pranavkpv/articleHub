@@ -9,6 +9,9 @@ import { IDislikeArticleUseCase } from "../../../application/usecases/interface/
 import { IBlockArticleUseCase } from "../../../application/usecases/interface/IBlockArticleUseCase";
 import { IEditArticleUseCase } from "../../../application/usecases/interface/IEditArticleUseCase";
 import { IDeleteArticleUseCase } from "../../../application/usecases/interface/IDeleteArticleUseCase";
+import { HTTP_STATUS } from "../../../domain/shared/Status";
+import { IGetUserBaseArticleUseCase } from "../../../application/usecases/interface/IGetUserBaseArticleUseCase";
+import { IGetPreferenceBaseArticleUsecase } from "../../../application/usecases/interface/IGetPreferenceBaseArticleUsecase";
 
 
 export class ArticleController implements IArticleController {
@@ -19,7 +22,9 @@ export class ArticleController implements IArticleController {
       private _dislikeArticleUseCase: IDislikeArticleUseCase,
       private _blockArticleUseCase: IBlockArticleUseCase,
       private _editArticleUseCase: IEditArticleUseCase,
-      private _deleteArticleUseCase:IDeleteArticleUseCase
+      private _deleteArticleUseCase: IDeleteArticleUseCase,
+      private _getUserBaseArticleUseCase: IGetUserBaseArticleUseCase,
+      private _getPreferenceBaseArticleUseCase:IGetPreferenceBaseArticleUsecase
    ) { }
    addArticle = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
       try {
@@ -84,7 +89,7 @@ export class ArticleController implements IArticleController {
          const file = files?.file as UploadedFile | undefined;
          if (!file || Array.isArray(file)) return;
          const uploadResult = await cloudinary.uploader.upload(file.tempFilePath, { folder: 'articleHub' });
-         const article = await this._editArticleUseCase.execute({ ...req.body,_id, image: uploadResult.secure_url })
+         const article = await this._editArticleUseCase.execute({ ...req.body, _id, image: uploadResult.secure_url })
          res.status(article.status).json({ success: article.success, message: article.message })
       } catch (error) {
          next(error)
@@ -95,6 +100,32 @@ export class ArticleController implements IArticleController {
          const _id = req.params.id
          const article = await this._deleteArticleUseCase.execute(String(_id))
          res.status(article.status).json({ success: article.success, message: article.message })
+      } catch (error) {
+         next(error)
+      }
+   }
+   getUserBaseArticle = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+      try {
+         const userHeader = req.headers.authorization;
+         const accessToken = userHeader?.split(' ')[1];
+         if (!accessToken) return
+         const payload = await this._tokenservice.verifyAccessToken(accessToken);
+         if (!payload) return
+         const article = await this._getUserBaseArticleUseCase.execute(payload._id)
+         res.status(HTTP_STATUS.OK).json({ success: true, message: "article fetch success", data: article })
+      } catch (error) {
+         next(error)
+      }
+   }
+   getPreferenceBaseArticle = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+      try {
+         const userHeader = req.headers.authorization;
+         const accessToken = userHeader?.split(' ')[1];
+         if (!accessToken) return
+         const payload = await this._tokenservice.verifyAccessToken(accessToken);
+         if (!payload) return
+         const article = await this._getPreferenceBaseArticleUseCase.execute(payload._id)
+         res.status(HTTP_STATUS.OK).json({ success: true, message: "article fetch success", data: article })
       } catch (error) {
          next(error)
       }
