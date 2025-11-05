@@ -30,6 +30,7 @@ export class App {
       this.server = http.createServer(this.app);
       this.setMiddlewares();
       this.setAuthRoute()
+      this.setArticleRoute()
       this.setErrorHandler();
       this.database = new connectMongo()
       this.database.connectDB()
@@ -70,6 +71,9 @@ export class App {
 
    private setAuthRoute() {
       this.app.use('/api/auth', new authRoute().authRoute)
+   }
+   private setArticleRoute() {
+      this.app.use('/api/article', new authRoute().authRoute)
    }
    private setErrorHandler() {
       this.app.use(errorHandler);
