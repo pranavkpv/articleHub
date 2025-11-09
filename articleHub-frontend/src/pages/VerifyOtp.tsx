@@ -1,5 +1,5 @@
 import React, { useState, useEffect, type FormEvent } from 'react';
-import eventBg from '../assets/event-bg.png'
+import articleBg from '../assets/ArticleHub.png';
 import Input from '../reusable/Input';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
@@ -69,7 +69,7 @@ const VerifyOTP: React.FC = () => {
             {/* Left Side: Image */}
             <div className="hidden md:block w-1/2">
                <img
-                  src={eventBg}
+                  src={articleBg}
                   alt="Event Management"
                   className="object-cover w-full h-full"
                />

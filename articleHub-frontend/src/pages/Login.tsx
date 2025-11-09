@@ -1,6 +1,6 @@
 import React, { useState, type FormEvent } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import eventBg from '../assets/event-bg.png'
+import articleBg from '../assets/ArticleHub.png';
 import type { loginData } from '../interfaces/user';
 import { userLogin } from '../api/userAuth';
 import { toast } from 'react-toastify';
@@ -39,7 +39,7 @@ const Login: React.FC = () => {
       if (response.success) {
          toast.success(response.message)
          localStorage.setItem('token', response.data.token)
-         
+         navigate('/dashboard')
       } else {
          toast.error(response.message)
       }
@@ -51,16 +51,15 @@ const Login: React.FC = () => {
             {/* Left Side: Image */}
             <div className="hidden md:block w-1/2">
                <img
-                  src={eventBg}
-                  alt="Event Management"
+                  src={articleBg}
+                  alt="Article Management"
                   className="object-cover w-full h-full"
                />
             </div>
             {/* Right Side: Form */}
             <div className="w-full md:w-1/2 p-8 flex flex-col justify-center">
-               <h1 className="text-4xl font-bold text-center text-indigo-600">Eventify</h1>
+               <h1 className="text-4xl font-bold text-center text-indigo-600">Article Hub</h1>
                <h2 className="text-2xl font-semibold text-center text-gray-800 mt-2">Log In</h2>
-               <p className="text-center text-gray-600 mb-6">Access your account to manage your events! Only participants are eligible to create an account.</p>
 
                {error && <p className="text-red-500 text-center mb-4">{error}</p>}
 

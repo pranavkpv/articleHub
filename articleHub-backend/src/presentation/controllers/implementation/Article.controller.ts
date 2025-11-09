@@ -28,16 +28,23 @@ export class ArticleController implements IArticleController {
    ) { }
    addArticle = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
       try {
+         const {title,description,category,tags} = req.body
          const files = req.files as FileArray;
-         const file = files?.file as UploadedFile | undefined;
-         if (!file || Array.isArray(file)) return;
+         const file = files?.image as UploadedFile | undefined;
+         if (!file || Array.isArray(file)) {
+            return
+         };
          const uploadResult = await cloudinary.uploader.upload(file.tempFilePath, { folder: 'articleHub' });
          const userHeader = req.headers.authorization;
          const accessToken = userHeader?.split(' ')[1];
-         if (!accessToken) return
+         if (!accessToken) {
+            return
+         }
          const payload = await this._tokenservice.verifyAccessToken(accessToken);
-         if (!payload) return
-         const article = await this._saveArticleUsecase.execute({ ...req.body, userId: payload._id, image: uploadResult.secure_url })
+         if (!payload) {
+            return
+         }
+         const article = await this._saveArticleUsecase.execute({ title,description,category,tags:JSON.parse(tags), createdBy: payload._id, image: uploadResult.secure_url })
          res.status(article.status).json({ success: article.success, message: article.message })
       } catch (error) {
          next(error)
@@ -86,7 +93,7 @@ export class ArticleController implements IArticleController {
       try {
          const _id = req.params.id
          const files = req.files as FileArray;
-         const file = files?.file as UploadedFile | undefined;
+         const file = files?.image as UploadedFile | undefined;
          if (!file || Array.isArray(file)) return;
          const uploadResult = await cloudinary.uploader.upload(file.tempFilePath, { folder: 'articleHub' });
          const article = await this._editArticleUseCase.execute({ ...req.body, _id, image: uploadResult.secure_url })

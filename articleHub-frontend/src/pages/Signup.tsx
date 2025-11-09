@@ -1,5 +1,5 @@
 import React, { useEffect, useState, type FormEvent } from 'react';
-import eventBg from '../assets/event-bg.png'
+import articleBg from '../assets/ArticleHub.png';
 import Input from '../reusable/Input';
 import UserSubmitButton from '../reusable/UserSubmitButton';
 import { toast } from 'react-toastify';
@@ -114,7 +114,7 @@ const Signup: React.FC = () => {
             {/* Left Side: Image */}
             <div className="hidden md:block w-1/2">
                <img
-                  src={eventBg}
+                  src={articleBg}
                   alt="Event Management"
                   className="object-cover w-full h-full"
                />

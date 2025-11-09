@@ -8,16 +8,9 @@ import { authRoute } from './src/presentation/routes/authRoute';
 import { errorHandler } from './src/presentation/middleware/ErrorHandler/errorHandler';
 import fileUpload from "express-fileupload";
 import { connectMongo } from './src/infrastructure/db/connectDB';
-import { categoryDB } from './src/infrastructure/db/model/category';
 import { articleRoute } from './src/presentation/routes/articleRoute';
 import { userRoute } from './src/presentation/routes/userRoutes';
-async function call() {
-   const newCategory = new categoryDB({
-      name: "sports"
-   })
-   await newCategory.save()
-}
-call()
+
 dotenv.config();
 const allowedOrigins = [
    'http://localhost:5173',
