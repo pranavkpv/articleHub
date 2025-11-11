@@ -91,6 +91,7 @@ const Profile: React.FC<ProfileProps> = ({ user, onSave, onCancel }) => {
             className="hidden"
             onChange={handleImageChange}
           />
+          {error}
         </label>
       </div>
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
