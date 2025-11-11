@@ -1,7 +1,7 @@
 import type { AxiosError } from "axios";
 import authAxios from "../axios/authAxios";
 import type { loginData, ProfileData, signupData, verifyOtpData } from "../interfaces/user";
-import type { commonResponse, getUserReposnse, loginResponse } from "../interfaces/output";
+import type { commonResponse, loginResponse } from "../interfaces/output";
 
 export const signupUser = async (data: signupData): Promise<commonResponse> => {
   try {
@@ -54,7 +54,7 @@ export const LogoutApi = async (): Promise<commonResponse> => {
 };
 
 
-export const getUserApi = async (): Promise<getUserReposnse> => {
+export const getUserApi = async () => {
   try {
     const res = await authAxios.get("/user/profile");
     return res.data

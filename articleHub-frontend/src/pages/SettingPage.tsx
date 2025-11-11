@@ -5,9 +5,10 @@ import Header from "../components/Header";
 import Footer from "../components/Footer";
 import { getUserApi, updatePasswordApi, updateProfile } from "../api/userAuth";
 import { toast } from "react-toastify";
+import type { IUserModelEntity } from "../components/Profile";
 
 const SettingPage: React.FC = () => {
-   const [user, setUser] = useState<ProfileData | null>(null);
+   const [user, setUser] = useState<IUserModelEntity | null>(null);
    const fetchUser = async () => {
       const response = await getUserApi()
       if (response.success) {

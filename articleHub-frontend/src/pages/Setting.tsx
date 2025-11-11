@@ -1,10 +1,10 @@
 import React, { useState } from "react";
-import Profile from "../components/Profile";
+import Profile, { type IUserModelEntity } from "../components/Profile";
 import ChangePassword from "../components/ChangePassword";
 import type { ProfileData } from "../interfaces/user";
 
 interface SettingProps {
-  user: ProfileData;
+  user: IUserModelEntity;
   onSaveProfile: (updatedUser: ProfileData) => void;
   onChangePassword: (currentPass: string, newPass: string) => Promise<void>;
   onCancel: () => void;
