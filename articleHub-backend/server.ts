@@ -14,6 +14,7 @@ import { userRoute } from './src/presentation/routes/userRoutes';
 dotenv.config();
 const allowedOrigins = [
    'http://localhost:5173',
+   'https://articlehub-1.onrender.com'
 ];
 export class App {
    private app: Express;
@@ -36,7 +37,7 @@ export class App {
 
       this.app.use(cors({
          origin: (origin, callback) => {
-            if (!origin) return callback(null, true); // allow non-browser requests (curl, Postman)
+            if (!origin) return callback(null, true); 
             if (allowedOrigins.includes(origin)) {
                callback(null, true);
             } else {
