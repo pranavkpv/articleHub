@@ -1,6 +1,6 @@
 import { listCategoryOutput } from "../../../domain/entities/category";
 import { HTTP_STATUS } from "../../../domain/shared/Status";
-import { ICategoryRepository } from "../../../infrastructure/repositories/interface/IcategoryRepository";
+import { ICategoryRepository } from "../../../infrastructure/repositories/interface/ICategoryRepository";
 import { IListCategoryUseCase } from "../interface/IListCategoryUseCase";
 
 export class ListCategoryUseCase implements IListCategoryUseCase {

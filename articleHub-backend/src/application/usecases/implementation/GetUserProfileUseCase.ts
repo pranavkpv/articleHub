@@ -1,5 +1,5 @@
 import { getuserProfileData } from "../../../domain/entities/user";
-import { IUserMapper } from "../../../infrastructure/mappers/interfaces/Iusermapper";
+import { IUserMapper } from "../../../infrastructure/mappers/interfaces/IUsermapper"
 import { IUserRepository } from "../../../infrastructure/repositories/interface/IUserRepository";
 import { IGetUserProfileUsecase } from "../interface/IGetUserProfileUsecase";
 

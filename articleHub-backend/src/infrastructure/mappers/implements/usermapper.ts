@@ -1,6 +1,6 @@
 import { getuserProfileData } from "../../../domain/entities/user";
 import { IUserModelEntity } from "../../db/interface/user";
-import { IUserMapper } from "../interfaces/Iusermapper";
+import { IUserMapper } from "../interfaces/IUsermapper";
 
 export class UserMapper implements IUserMapper {
    toProfileDTO(user: IUserModelEntity): getuserProfileData {
