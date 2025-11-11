@@ -4,6 +4,9 @@ import VerifyOTP from "../pages/VerifyOtp"
 import Login from "../pages/Login"
 import Dashboard from "../pages/Dashboard"
 import ArticlesContainer from "../pages/ArticleContainer"
+import SettingPage from "../pages/SettingPage"
+
+
 
 
 
@@ -15,6 +18,7 @@ function UserRoute() {
       <Route path="/login" element={<Login />} />
       <Route path="/dashboard" element={<Dashboard />} />
       <Route path="/article" element={<ArticlesContainer />} />
+      <Route path="/setting" element={<SettingPage />} />
     </Routes>
   )
 }

@@ -1,5 +1,5 @@
 import type { categoryData } from "./category"
-import type { tokenData } from "./user"
+import type { ProfileData, tokenData } from "./user"
 
 export interface commonResponse {
    success: boolean
@@ -12,4 +12,8 @@ export interface listCategoryOutput extends commonResponse {
 
 export interface loginResponse extends commonResponse {
    data:tokenData
+}
+
+export interface getUserReposnse extends commonResponse {
+   data:ProfileData | null
 }

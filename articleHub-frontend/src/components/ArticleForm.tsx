@@ -1,4 +1,7 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { toast } from 'react-toastify';
+import { listCategoryApi } from '../api/category';
+import type { categoryData } from '../interfaces/category';
 
 // Types
 interface Article {
@@ -13,10 +16,6 @@ interface Article {
   block: any[];
 }
 
-interface Category {
-  _id: string;
-  name: string;
-}
 
 // ==================== ArticleForm Component ====================
 interface ArticleFormProps {
@@ -34,13 +33,20 @@ const ArticleForm: React.FC<ArticleFormProps> = ({ initialData, onSubmit, onCanc
   const [tagInput, setTagInput] = useState('');
   const [imagePreview, setImagePreview] = useState<string>(initialData.image || '');
 
-  // Mock categories - replace with your API call
-  const categories: Category[] = [
-    { _id: '1', name: 'Technology' },
-    { _id: '2', name: 'Education' },
-    { _id: '3', name: 'Development' },
-    { _id: '4', name: 'Design' },
-  ];
+  const [categories,setCategories] = useState<categoryData[]>([])
+
+  const fetchCategory = async () => {
+        const categoryData = await listCategoryApi();
+        if (categoryData.success) {
+           setCategories(categoryData.data);
+        } else {
+           toast.error(categoryData.message);
+        }
+     };
+  
+     useEffect(() => {
+        fetchCategory();
+     }, []);
 
   const addTag = () => {
     const trimmed = tagInput.trim();
@@ -69,7 +75,7 @@ const ArticleForm: React.FC<ArticleFormProps> = ({ initialData, onSubmit, onCanc
   const handleSubmit = (e: React.MouseEvent) => {
     e.preventDefault();
     if (!title.trim() || !description.trim()) {
-      alert('Title and Description are required');
+      toast.error('Title and Description are required');
       return;
     }
 

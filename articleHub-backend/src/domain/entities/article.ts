@@ -20,7 +20,7 @@ export interface editArticle {
    _id: string
    title: string,
    description: string,
-   image: string,
+   image: string | null,
    tags: string[],
    category: string,
 }

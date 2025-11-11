@@ -50,3 +50,16 @@ export interface volunteerGet {
    _id:string 
    username:string
 }
+
+
+export interface ProfileData {
+   _id:string
+   firstname:string
+   lastname: string
+   email: string
+   phone: string
+   DOB: Date
+   image:string | File
+   preferences:string[]
+}
+

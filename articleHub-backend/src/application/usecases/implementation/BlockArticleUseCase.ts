@@ -9,6 +9,14 @@ export class BlockArticleUseCase implements IBlockArticleUseCase {
       private _articleRepository: IArticleRepository
    ) { }
    async execute(data: likeData): Promise<commonOutput> {
+      const likeData = await this._articleRepository.findLikeByArticlAndUser(data)
+      const disLikeData = await this._articleRepository.findDisLikeByArticleAndUser(data)
+      if (likeData) {
+         await this._articleRepository.removeLike(data)
+      }
+      if (disLikeData) {
+         await this._articleRepository.removeDisLike(data)
+      }
       await this._articleRepository.blockArticle(data)
       return {
          message: 'block success',

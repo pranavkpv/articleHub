@@ -1,10 +1,10 @@
 import React, { useState, useEffect, type FormEvent } from 'react';
 import articleBg from '../assets/ArticleHub.png';
-import Input from '../reusable/Input';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { ResendUserOTP, VerifyUserOTP } from '../api/userAuth';
 import type { commonResponse } from '../interfaces/output';
+import Input from '../reusable/Input';
 
 const VerifyOTP: React.FC = () => {
    const [otp, setOtp] = useState<string>('');

@@ -128,12 +128,12 @@ const Signup: React.FC = () => {
                {error && <p className="text-red-500 text-center mb-4">{error}</p>}
 
                <form onSubmit={validateForm} className="space-y-4">
-                  <Input handle={handleChange} id="firstname" name="firstname" labelname="First Name" type="text" value={formData.firstname} placeholder="Enter your first name" />
-                  <Input handle={handleChange} id="lastname" name="lastname" labelname="Last Name" type="text" value={formData.lastname} placeholder="Enter your last name" />
-                  <Input type="email" id="email" name="email" value={formData.email} handle={handleChange} labelname="Email Address" placeholder="Enter your email" />
-                  <Input type="tel" id="phone" name="phone" value={formData.phone} handle={handleChange} labelname="Phone Number" placeholder="Enter your phone number" />
-                  <Input type="password" id="password" name="password" value={formData.password} handle={handleChange} labelname="Password" placeholder="Create a password" />
-                  <Input type="password" id="confirmPassword" name="confirmPassword" value={formData.confirmPassword} handle={handleChange} labelname="Confirm Password" placeholder="Confirm your password" />
+                  <Input handle={handleChange} id="firstname" labelname="First Name" type="text" value={formData.firstname} placeholder="Enter your first name" />
+                  <Input handle={handleChange} id="lastname" labelname="Last Name" type="text" value={formData.lastname} placeholder="Enter your last name" />
+                  <Input type="email" id="email" value={formData.email} handle={handleChange} labelname="Email Address" placeholder="Enter your email" />
+                  <Input type="tel" id="phone" value={formData.phone} handle={handleChange} labelname="Phone Number" placeholder="Enter your phone number" />
+                  <Input type="password" id="password" value={formData.password} handle={handleChange} labelname="Password" placeholder="Create a password" />
+                  <Input type="password" id="confirmPassword"  value={formData.confirmPassword} handle={handleChange} labelname="Confirm Password" placeholder="Confirm your password" />
 
                   {/* DOB Field */}
                   <label htmlFor="DOB" className="block text-gray-700">Date of Birth</label>

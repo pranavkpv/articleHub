@@ -1,4 +1,4 @@
-import { editPasswordRepo, registerUserData, resendOtpData, tempUserData } from "../../../domain/entities/user";
+import { editPasswordRepo, getuserProfileData, registerUserData, resendOtpData, tempUserData } from "../../../domain/entities/user";
 import { IUserModelEntity } from "../../db/interface/user";
 import { userDB } from "../../db/model/user";
 import redis from "../../db/redis";
@@ -66,9 +66,9 @@ export class UserRepository implements IUserRepository {
    async findUserByEmailOrPhone(data: string): Promise<IUserModelEntity | null> {
       return await userDB.findOne({ $or: [{ email: data }, { phone: data }] })
    }
-   async updateUser(data: IUserModelEntity): Promise<void> {
-      const { _id, firstname, lastname, email, phone, password, DOB, preferences } = data
-      await userDB.findByIdAndUpdate(_id, { firstname, lastname, email, phone, password, DOB, preferences })
+   async updateUser(data: getuserProfileData): Promise<void> {
+      const { _id, firstname, lastname, email, phone, DOB, preferences } = data
+      await userDB.findByIdAndUpdate(_id, { firstname, lastname, email, phone, DOB, preferences })
    }
    async updatepassword(data: editPasswordRepo): Promise<void> {
       const { _id, password } = data

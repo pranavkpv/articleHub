@@ -1,4 +1,4 @@
-import { editPasswordRepo, registerUserData, resendOtpData, tempUserData } from "../../../domain/entities/user";
+import { editPasswordRepo, getuserProfileData, registerUserData, resendOtpData, tempUserData } from "../../../domain/entities/user";
 import { IUserModelEntity } from "../../db/interface/user";
 
 export interface IUserRepository {
@@ -9,6 +9,6 @@ export interface IUserRepository {
    findUserByEmail(email: string): Promise<IUserModelEntity | null>
    findUserById(user:string):Promise<IUserModelEntity | null>
    findUserByEmailOrPhone(data:string):Promise<IUserModelEntity | null>
-   updateUser(data:IUserModelEntity):Promise<void>
+   updateUser(data:getuserProfileData):Promise<void>
    updatepassword(data:editPasswordRepo):Promise<void>
 }

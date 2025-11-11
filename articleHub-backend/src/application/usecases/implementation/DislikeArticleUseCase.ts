@@ -6,14 +6,27 @@ import { IDislikeArticleUseCase } from "../interface/IDislikeArticleUseCase";
 
 export class DislikeArticleUseCase implements IDislikeArticleUseCase {
    constructor(
-      private _articleRepository:IArticleRepository
+      private _articleRepository: IArticleRepository
    ) { }
    async execute(data: likeData): Promise<commonOutput> {
-       await this._articleRepository.disLikeArticle(data)
-       return {
-         message:'dislike success',
-         status:HTTP_STATUS.OK,
-         success:true
-       }
+      const likeData = await this._articleRepository.findLikeByArticlAndUser(data)
+      const disLikeData = await this._articleRepository.findDisLikeByArticleAndUser(data)
+      if (likeData) {
+         await this._articleRepository.removeLike(data)
+      }
+      if (disLikeData) {
+         await this._articleRepository.removeDisLike(data)
+         return {
+            message: "remove Dislike",
+            status: HTTP_STATUS.OK,
+            success: true
+         }
+      }
+      await this._articleRepository.disLikeArticle(data)
+      return {
+         message: 'dislike success',
+         status: HTTP_STATUS.OK,
+         success: true
+      }
    }
 }

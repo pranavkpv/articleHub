@@ -24,11 +24,11 @@ export class ArticleController implements IArticleController {
       private _editArticleUseCase: IEditArticleUseCase,
       private _deleteArticleUseCase: IDeleteArticleUseCase,
       private _getUserBaseArticleUseCase: IGetUserBaseArticleUseCase,
-      private _getPreferenceBaseArticleUseCase:IGetPreferenceBaseArticleUsecase
+      private _getPreferenceBaseArticleUseCase: IGetPreferenceBaseArticleUsecase
    ) { }
    addArticle = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
       try {
-         const {title,description,category,tags} = req.body
+         const { title, description, category, tags } = req.body
          const files = req.files as FileArray;
          const file = files?.image as UploadedFile | undefined;
          if (!file || Array.isArray(file)) {
@@ -44,7 +44,28 @@ export class ArticleController implements IArticleController {
          if (!payload) {
             return
          }
-         const article = await this._saveArticleUsecase.execute({ title,description,category,tags:JSON.parse(tags), createdBy: payload._id, image: uploadResult.secure_url })
+         const article = await this._saveArticleUsecase.execute({ title, description, category, tags: JSON.parse(tags), createdBy: payload._id, image: uploadResult.secure_url })
+         res.status(article.status).json({ success: article.success, message: article.message })
+      } catch (error) {
+         next(error)
+      }
+   }
+   editArticle = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+      try {
+         const { title, description, category, tags } = req.body
+         const _id = req.params.id
+         if(!_id){
+            return 
+         }
+         let image = null
+         if (req.files) {
+            const files = req.files as FileArray;
+            const file = files?.image as UploadedFile | undefined;
+            if (!file || Array.isArray(file)) return;
+            const uploadResult = await cloudinary.uploader.upload(file.tempFilePath, { folder: 'articleHub' });
+            image = uploadResult.secure_url
+         }   
+         const article = await this._editArticleUseCase.execute({_id,category,description,tags:JSON.parse(tags),title, image})
          res.status(article.status).json({ success: article.success, message: article.message })
       } catch (error) {
          next(error)
@@ -57,7 +78,7 @@ export class ArticleController implements IArticleController {
          if (!accessToken) return
          const payload = await this._tokenservice.verifyAccessToken(accessToken);
          if (!payload) return
-         const article = await this._likeArticleUseCase.execute({ ...req.body, userId: payload._id })
+         const article = await this._likeArticleUseCase.execute({ articleId:req.body.id, userId: payload._id })
          res.status(article.status).json({ success: article.success, message: article.message })
       } catch (error) {
          next(error)
@@ -70,7 +91,7 @@ export class ArticleController implements IArticleController {
          if (!accessToken) return
          const payload = await this._tokenservice.verifyAccessToken(accessToken);
          if (!payload) return
-         const article = await this._dislikeArticleUseCase.execute({ ...req.body, userId: payload._id })
+         const article = await this._dislikeArticleUseCase.execute({ articleId:req.body.id, userId: payload._id })
          res.status(article.status).json({ success: article.success, message: article.message })
       } catch (error) {
          next(error)
@@ -83,20 +104,7 @@ export class ArticleController implements IArticleController {
          if (!accessToken) return
          const payload = await this._tokenservice.verifyAccessToken(accessToken);
          if (!payload) return
-         const article = await this._blockArticleUseCase.execute({ ...req.body, userId: payload._id })
-         res.status(article.status).json({ success: article.success, message: article.message })
-      } catch (error) {
-         next(error)
-      }
-   }
-   editArticle = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
-      try {
-         const _id = req.params.id
-         const files = req.files as FileArray;
-         const file = files?.image as UploadedFile | undefined;
-         if (!file || Array.isArray(file)) return;
-         const uploadResult = await cloudinary.uploader.upload(file.tempFilePath, { folder: 'articleHub' });
-         const article = await this._editArticleUseCase.execute({ ...req.body, _id, image: uploadResult.secure_url })
+         const article = await this._blockArticleUseCase.execute({ articleId:req.body.id, userId: payload._id })
          res.status(article.status).json({ success: article.success, message: article.message })
       } catch (error) {
          next(error)

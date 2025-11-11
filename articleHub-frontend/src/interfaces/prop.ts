@@ -5,5 +5,4 @@ export interface InputProp {
    handle:(e: React.ChangeEvent<HTMLInputElement>)=>void
    labelname:string 
    placeholder:string
-   name:string
 }

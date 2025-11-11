@@ -13,10 +13,11 @@ export class UserController implements IUserController {
       private _tokenservice: IToken,
       private _editProfileUseCase: IEditProfileUseCase,
       private _editPasswordUseCase: IEditPasswordUseCase,
-      private _getUserProfileUseCase:IGetUserProfileUsecase
+      private _getUserProfileUseCase: IGetUserProfileUsecase
    ) { }
    editProfile = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
       try {
+         const {firstname,lastname,email,phone,DOB,preferences} = req.body
          const userHeader = req.headers.authorization;
          const accessToken = userHeader?.split(' ')[1];
          if (!accessToken) return
@@ -24,9 +25,16 @@ export class UserController implements IUserController {
          if (!payload) return
          const files = req.files as FileArray;
          const file = files?.file as UploadedFile | undefined;
-         if (!file || Array.isArray(file)) return;
-         const uploadResult = await cloudinary.uploader.upload(file.tempFilePath, { folder: 'articleHub' });
-         const user = await this._editProfileUseCase.execute({ ...req.body, _id: payload._id, image: uploadResult.secure_url })
+         let user = null
+         if (!file || Array.isArray(file)) {
+             user = await this._editProfileUseCase.execute({ 
+              _id:payload._id,DOB,email,firstname,image:'',lastname,phone,preferences:JSON.parse(preferences)
+            })
+         } else {
+            const uploadResult = await cloudinary.uploader.upload(file.tempFilePath, { folder: 'articleHub' });
+             user = await this._editProfileUseCase.execute({ ...req.body, _id: payload._id, image: uploadResult.secure_url })
+         }
+
          res.status(user.status).json({ success: user.success, message: user.message })
       } catch (error) {
          next(error)
@@ -34,11 +42,7 @@ export class UserController implements IUserController {
    }
    editPassword = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
       try {
-         const { currentpassword, newpassword, confirmPassword } = req.body
-         if (newpassword !== confirmPassword) {
-            res.status(HTTP_STATUS.BAD_REQUEST).json({ success: false, message: "password not match" })
-            return
-         }
+         const { currentpassword, newpassword } = req.body
          const userHeader = req.headers.authorization;
          const accessToken = userHeader?.split(' ')[1];
          if (!accessToken) return
@@ -58,7 +62,7 @@ export class UserController implements IUserController {
          const payload = await this._tokenservice.verifyAccessToken(accessToken);
          if (!payload) return
          const user = await this._getUserProfileUseCase.execute(payload._id)
-         res.status(HTTP_STATUS.OK).json({ success: true, message: 'userdata fetch success',data:user })
+         res.status(HTTP_STATUS.OK).json({ success: true, message: 'userdata fetch success', data: user })
          if (!payload) return
       } catch (error) {
          next(error)
