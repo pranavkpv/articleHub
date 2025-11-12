@@ -5,6 +5,8 @@ import type { loginData } from '../interfaces/user';
 import { userLogin } from '../api/userAuth';
 import { toast } from 'react-toastify';
 import type { loginResponse } from '../interfaces/output';
+import { AiOutlineEye, AiOutlineEyeInvisible } from 'react-icons/ai';
+
 
 
 
@@ -16,6 +18,8 @@ const Login: React.FC = () => {
    });
    const [error, setError] = useState<string>('');
    const navigate = useNavigate()
+   const [showPassword, setShowPassword] = useState(false);
+
 
    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
       const { name, value } = e.target;
@@ -76,10 +80,9 @@ const Login: React.FC = () => {
                         className="mt-1 w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
                      />
                   </div>
-                  <div>
-                     <label htmlFor="password" className="block text-sm font-medium text-gray-700">Password</label>
+                  <div className="relative">
                      <input
-                        type="password"
+                        type={showPassword ? 'text' : 'password'}
                         id="password"
                         name="password"
                         value={formData.password}
@@ -87,7 +90,14 @@ const Login: React.FC = () => {
                         placeholder="Enter your password"
                         className="mt-1 w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
                      />
+                     <span
+                        className="absolute right-3 top-1/2 transform -translate-y-1/2 cursor-pointer text-gray-500"
+                        onClick={() => setShowPassword(!showPassword)}
+                     >
+                        {showPassword ? <AiOutlineEyeInvisible size={20} /> : <AiOutlineEye size={20} />}
+                     </span>
                   </div>
+
                   <button
                      type="submit"
                      className="w-full py-3 bg-indigo-600 text-white font-semibold rounded-lg hover:bg-indigo-700 transition duration-300"
