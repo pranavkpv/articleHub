@@ -55,21 +55,22 @@ const Profile: React.FC<ProfileProps> = ({ user, onSave, onCancel }) => {
     });
   };
 
-  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setForm((prev) => ({ ...prev, image: reader.result as string }));
-      };
-      reader.readAsDataURL(file);
-    }
-  };
+  // const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  //   const file = e.target.files?.[0];
+  //   if (file) {
+  //     const reader = new FileReader();
+  //     reader.onloadend = () => {
+  //       setForm((prev) => ({ ...prev, image: reader.result as string }));
+  //     };
+  //     reader.readAsDataURL(file);
+  //   }
+  // };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     setError(null);
     onSave(form);
+    console.log(error)
   };
 
   return (
@@ -77,7 +78,7 @@ const Profile: React.FC<ProfileProps> = ({ user, onSave, onCancel }) => {
       {/* ...existing Profile form code as before, unchanged... */}
 
       {/* Image */}
-      <div className="flex items-center gap-6">
+      {/* <div className="flex items-center gap-6">
         <img
           src={form.image || "https://via.placeholder.com/80"}
           alt="User avatar"
@@ -93,7 +94,7 @@ const Profile: React.FC<ProfileProps> = ({ user, onSave, onCancel }) => {
           />
           {error}
         </label>
-      </div>
+      </div> */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
         <div>
           <label

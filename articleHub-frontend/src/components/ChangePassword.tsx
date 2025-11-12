@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Eye, EyeOff } from "lucide-react";
 
 interface ChangePasswordProps {
   onChangePassword: (currentPassword: string, newPassword: string) => Promise<void>;
@@ -14,6 +15,11 @@ const ChangePassword: React.FC<ChangePasswordProps> = ({
   const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
+
+  // Visibility states
+  const [showCurrent, setShowCurrent] = useState(false);
+  const [showNew, setShowNew] = useState(false);
+  const [showConfirm, setShowConfirm] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -33,49 +39,92 @@ const ChangePassword: React.FC<ChangePasswordProps> = ({
   };
 
   return (
-    <form onSubmit={handleSubmit} className="bg-white rounded-lg shadow-md p-6 max-w-md mx-auto space-y-6">
-      <h2 className="text-2xl font-semibold text-indigo-700 mb-4">Change Password</h2>
+    <form
+      onSubmit={handleSubmit}
+      className="bg-white rounded-lg shadow-md p-6 max-w-md mx-auto space-y-6"
+    >
+      <h2 className="text-2xl font-semibold text-indigo-700 mb-4">
+        Change Password
+      </h2>
 
+      {/* Current Password */}
       <div>
-        <label className="block text-sm font-medium text-gray-700 mb-1">Current Password</label>
-        <input
-         placeholder="password"
-          type="password"
-          value={currentPassword}
-          onChange={(e) => setCurrentPassword(e.target.value)}
-          className="w-full border rounded-md p-2 focus:ring-2 focus:ring-indigo-500 focus:outline-none"
-          required
-        />
+        <label className="block text-sm font-medium text-gray-700 mb-1">
+          Current Password
+        </label>
+        <div className="relative">
+          <input
+            placeholder="password"
+            type={showCurrent ? "text" : "password"}
+            value={currentPassword}
+            onChange={(e) => setCurrentPassword(e.target.value)}
+            className="w-full border rounded-md p-2 pr-10 focus:ring-2 focus:ring-indigo-500 focus:outline-none"
+            required
+          />
+          <button
+            type="button"
+            onClick={() => setShowCurrent(!showCurrent)}
+            className="absolute inset-y-0 right-2 flex items-center text-gray-500"
+          >
+            {showCurrent ? <EyeOff size={20} /> : <Eye size={20} />}
+          </button>
+        </div>
       </div>
 
+      {/* New Password */}
       <div>
-        <label className="block text-sm font-medium text-gray-700 mb-1">New Password</label>
-        <input
-        placeholder="new password"
-          type="password"
-          value={newPassword}
-          onChange={(e) => setNewPassword(e.target.value)}
-          className="w-full border rounded-md p-2 focus:ring-2 focus:ring-indigo-500 focus:outline-none"
-          required
-        />
+        <label className="block text-sm font-medium text-gray-700 mb-1">
+          New Password
+        </label>
+        <div className="relative">
+          <input
+            placeholder="new password"
+            type={showNew ? "text" : "password"}
+            value={newPassword}
+            onChange={(e) => setNewPassword(e.target.value)}
+            className="w-full border rounded-md p-2 pr-10 focus:ring-2 focus:ring-indigo-500 focus:outline-none"
+            required
+          />
+          <button
+            type="button"
+            onClick={() => setShowNew(!showNew)}
+            className="absolute inset-y-0 right-2 flex items-center text-gray-500"
+          >
+            {showNew ? <EyeOff size={20} /> : <Eye size={20} />}
+          </button>
+        </div>
       </div>
 
+      {/* Confirm Password */}
       <div>
-        <label className="block text-sm font-medium text-gray-700 mb-1">Confirm New Password</label>
-        <input
-        placeholder="confirm password"
-          type="password"
-          value={confirmPassword}
-          onChange={(e) => setConfirmPassword(e.target.value)}
-          className="w-full border rounded-md p-2 focus:ring-2 focus:ring-indigo-500 focus:outline-none"
-          required
-        />
+        <label className="block text-sm font-medium text-gray-700 mb-1">
+          Confirm New Password
+        </label>
+        <div className="relative">
+          <input
+            placeholder="confirm password"
+            type={showConfirm ? "text" : "password"}
+            value={confirmPassword}
+            onChange={(e) => setConfirmPassword(e.target.value)}
+            className="w-full border rounded-md p-2 pr-10 focus:ring-2 focus:ring-indigo-500 focus:outline-none"
+            required
+          />
+          <button
+            type="button"
+            onClick={() => setShowConfirm(!showConfirm)}
+            className="absolute inset-y-0 right-2 flex items-center text-gray-500"
+          >
+            {showConfirm ? <EyeOff size={20} /> : <Eye size={20} />}
+          </button>
+        </div>
       </div>
 
+      {/* Error Message */}
       {error && (
         <p className="text-red-600 text-center font-semibold">{error}</p>
       )}
 
+      {/* Buttons */}
       <div className="flex justify-end gap-4">
         <button
           type="button"
