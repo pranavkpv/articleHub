@@ -13,8 +13,7 @@ import { userRoute } from './src/presentation/routes/userRoutes';
 
 dotenv.config();
 const allowedOrigins = [
-   'http://localhost:5173',
-   'https://articlehub-1.onrender.com'
+    process.env.FRONTEND_URL
 ];
 export class App {
    private app: Express;
