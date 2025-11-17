@@ -19,7 +19,7 @@ const hasher = new Hasher()
 const token = new Token() 
 const usermapper = new UserMapper()
 
-const saveUserDataTemporarilyUseCase = new SaveUserDataTemporarlyUseCase(userRepository)
+const saveUserDataTemporarilyUseCase = new SaveUserDataTemporarlyUseCase(userRepository,hasher)
 const checkTemporarUserDataUseCase = new CheckTemporarUserDataUseCase(userRepository,hasher)
 const updateTemporarUserDataUseCase = new UpdateTemporarUserDataUseCase(userRepository)
 const loginUserUseCase = new LoginUserUseCase(userRepository,hasher,token)

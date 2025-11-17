@@ -102,7 +102,7 @@ const Signup: React.FC = () => {
       const response = await signupUser(formData);
       if (response.success) {
          toast.success(response.message);
-         navigate('/verifyotp', { state: { email: formData.email } });
+         navigate('/login');
       } else {
          toast.error(response.message);
       }

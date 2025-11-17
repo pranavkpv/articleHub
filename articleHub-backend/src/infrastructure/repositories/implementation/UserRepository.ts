@@ -1,4 +1,4 @@
-import { editPasswordRepo, getuserProfileData, registerUserData, resendOtpData, tempUserData } from "../../../domain/entities/user";
+import { editPasswordRepo, getuserProfileData, resendOtpData, signupData, tempUserData } from "../../../domain/entities/user";
 import { IUserModelEntity } from "../../db/interface/user";
 import { userDB } from "../../db/model/user";
 import redis from "../../db/redis";
@@ -42,7 +42,7 @@ export class UserRepository implements IUserRepository {
 
       return tempUser;
    }
-   async registerUser(data: registerUserData): Promise<boolean> {
+   async registerUser(data: signupData): Promise<boolean> {
       const newUser = new userDB(
          data
       )
