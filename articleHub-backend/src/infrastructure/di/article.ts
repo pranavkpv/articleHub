@@ -1,3 +1,4 @@
+import { CloudinaryUploader } from "../../application/services/implementation/CloudinaryUploader";
 import { Token } from "../../application/services/implementation/Token";
 import { ArticleSaveUsecase } from "../../application/usecases/implementation/ArticleSaveUsecase";
 import { BlockArticleUseCase } from "../../application/usecases/implementation/BlockArticleUseCase";
@@ -22,7 +23,8 @@ const dislikeArticleUseCase = new DislikeArticleUseCase(articleRepository)
 const blockArticleUseCase = new BlockArticleUseCase(articleRepository)
 const editArticleUseCase = new EditArtcleUseCase(articleRepository)
 const deleteArticleUseCase = new DeleteArticleUsecase(articleRepository)
+const uploadFile = new CloudinaryUploader()
 const getUserBaseArticleUseCase = new GetUserBaseArticleUseCase(articleRepository,articlemapper)
 const getPreferenceBaseArticleUseCase = new GetPreferenceBaseArticleUsecase(userRepository,articleRepository,articlemapper,)
 export const injectedArticleController = new ArticleController(saveArticleUsecase, tokenservice, likeArticleUseCase, dislikeArticleUseCase,
-   blockArticleUseCase, editArticleUseCase, deleteArticleUseCase,getUserBaseArticleUseCase,getPreferenceBaseArticleUseCase)
+   blockArticleUseCase, editArticleUseCase, deleteArticleUseCase,getUserBaseArticleUseCase,getPreferenceBaseArticleUseCase,uploadFile)

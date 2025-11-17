@@ -1,5 +1,4 @@
 import { FileArray, UploadedFile } from "express-fileupload";
-import cloudinary from "../../../application/config/cloudinary";
 import { IToken } from "../../../application/services/interface/IToken";
 import { IArticleController } from "../interface/IArticle.controller";
 import { Request, Response, NextFunction } from "express";
@@ -12,6 +11,7 @@ import { IDeleteArticleUseCase } from "../../../application/usecases/interface/I
 import { HTTP_STATUS } from "../../../domain/shared/Status";
 import { IGetUserBaseArticleUseCase } from "../../../application/usecases/interface/IGetUserBaseArticleUseCase";
 import { IGetPreferenceBaseArticleUsecase } from "../../../application/usecases/interface/IGetPreferenceBaseArticleUsecase";
+import { IFileUploader } from "../../../application/services/interface/IFileUploader";
 
 
 export class ArticleController implements IArticleController {
@@ -24,7 +24,8 @@ export class ArticleController implements IArticleController {
       private _editArticleUseCase: IEditArticleUseCase,
       private _deleteArticleUseCase: IDeleteArticleUseCase,
       private _getUserBaseArticleUseCase: IGetUserBaseArticleUseCase,
-      private _getPreferenceBaseArticleUseCase: IGetPreferenceBaseArticleUsecase
+      private _getPreferenceBaseArticleUseCase: IGetPreferenceBaseArticleUsecase,
+      private _uploadFile: IFileUploader
    ) { }
    addArticle = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
       try {
@@ -34,7 +35,7 @@ export class ArticleController implements IArticleController {
          if (!file || Array.isArray(file)) {
             return
          };
-         const uploadResult = await cloudinary.uploader.upload(file.tempFilePath, { folder: 'articleHub' });
+         const uploadResult = await this._uploadFile.upload(file.tempFilePath)
          const userHeader = req.headers.authorization;
          const accessToken = userHeader?.split(' ')[1];
          if (!accessToken) {
@@ -44,7 +45,7 @@ export class ArticleController implements IArticleController {
          if (!payload) {
             return
          }
-         const article = await this._saveArticleUsecase.execute({ title, description, category, tags: JSON.parse(tags), createdBy: payload._id, image: uploadResult.secure_url })
+         const article = await this._saveArticleUsecase.execute({ title, description, category, tags: JSON.parse(tags), createdBy: payload._id, image: uploadResult })
          res.status(article.status).json({ success: article.success, message: article.message })
       } catch (error) {
          next(error)
@@ -62,8 +63,8 @@ export class ArticleController implements IArticleController {
             const files = req.files as FileArray;
             const file = files?.image as UploadedFile | undefined;
             if (!file || Array.isArray(file)) return;
-            const uploadResult = await cloudinary.uploader.upload(file.tempFilePath, { folder: 'articleHub' });
-            image = uploadResult.secure_url
+            const uploadResult = await this._uploadFile.upload(file.tempFilePath)
+            image = uploadResult
          }   
          const article = await this._editArticleUseCase.execute({_id,category,description,tags:JSON.parse(tags),title, image})
          res.status(article.status).json({ success: article.success, message: article.message })
