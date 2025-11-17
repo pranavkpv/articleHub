@@ -4,6 +4,7 @@ import session from "express-session";
 import express, { Express } from "express";
 import http from 'http';
 import dotenv from "dotenv";
+dotenv.config();
 import { authRoute } from './src/presentation/routes/authRoute';
 import { errorHandler } from './src/presentation/middleware/ErrorHandler/errorHandler';
 import fileUpload from "express-fileupload";
@@ -11,7 +12,6 @@ import { connectMongo } from './src/infrastructure/db/connectDB';
 import { articleRoute } from './src/presentation/routes/articleRoute';
 import { userRoute } from './src/presentation/routes/userRoutes';
 
-dotenv.config();
 const allowedOrigins = [
     process.env.FRONTEND_URL
 ];
