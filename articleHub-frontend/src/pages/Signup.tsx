@@ -121,7 +121,7 @@ const Signup: React.FC = () => {
             </div>
             {/* Right Side: Form */}
             <div className="w-full md:w-1/2 p-8 flex flex-col justify-center">
-               <h1 className="text-4xl font-bold text-center text-indigo-600">Eventify</h1>
+               <h1 className="text-4xl font-bold text-center text-indigo-600">ArticleHub</h1>
                <h2 className="text-2xl font-semibold text-center text-gray-800 mt-2">Create Your Account</h2>
                <p className="text-center text-gray-600 mb-6">Join us to plan unforgettable events!</p>
 

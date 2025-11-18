@@ -10,10 +10,10 @@ export class ArticleSaveUsecase implements IArticleSaveUseCase {
    ) { }
    async execute(data: addArticle): Promise<commonOutput> {
       await this._articleRepository.saveArticle(data)
-      return{
-         success:true,
-         message:'article saved successfully',
-         status:HTTP_STATUS.OK
+      return {
+         success: true,
+         message: 'article saved successfully',
+         status: HTTP_STATUS.OK
       }
    }
 }

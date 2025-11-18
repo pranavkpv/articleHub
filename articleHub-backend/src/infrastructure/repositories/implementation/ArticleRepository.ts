@@ -1,5 +1,6 @@
 import { addArticle, articleAggregateByUser, editArticle, likeAggregateUser, likeData } from "../../../domain/entities/article";
 import { IArticleModelEntity } from "../../db/interface/article";
+import { IBlockModelEntity } from "../../db/interface/block";
 import { IDislikeModelEntity } from "../../db/interface/dislike";
 import { ILikeModelEntity } from "../../db/interface/like";
 import { articleDB } from "../../db/model/article";
@@ -122,5 +123,8 @@ export class ArticleRepository implements IArticleRepository {
     }
     async removeDisLike(data: likeData): Promise<void> {
         await disLikeDB.findOneAndDelete({ userId: data.userId, articleId: data.articleId })
+    }
+    async findBlockByUser(id: string): Promise<IBlockModelEntity[]> {
+        return await blockDB.find({userId:id})
     }
 }

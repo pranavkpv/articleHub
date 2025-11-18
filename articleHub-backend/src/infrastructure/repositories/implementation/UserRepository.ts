@@ -43,8 +43,17 @@ export class UserRepository implements IUserRepository {
       return tempUser;
    }
    async registerUser(data: signupData): Promise<boolean> {
-      const newUser = new userDB(
-         data
+      const { firstname, lastname, email, phone, password, confirmPassword, DOB, preference } = data
+      console.log(confirmPassword)
+      const newUser = new userDB({
+         DOB,
+         firstname,
+         lastname,
+         email,
+         phone,
+         password,
+         preferences: preference
+      }
       )
       await newUser.save()
       return true

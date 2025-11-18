@@ -24,6 +24,7 @@ const ArticlesContainer: React.FC = () => {
 
    const handleGetArticle = async () => {
       const response = await getUserArticle()
+      console.log(response)
       if (response.success) {
          setArticles(response.data)
       }

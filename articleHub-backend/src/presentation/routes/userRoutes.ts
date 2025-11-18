@@ -1,5 +1,6 @@
 import { Router } from 'express';
 import { injectedUserController } from '../../infrastructure/di/user';
+import { validatEditProfile, validatePassword } from '../middleware/validations/user';
 
 
 export class userRoute {
@@ -11,10 +12,12 @@ export class userRoute {
    private setRoute() {
       this.userRoute.put(
          '/edit-profile',
+         validatEditProfile,
          injectedUserController.editProfile
       );
       this.userRoute.patch(
          '/edit-password',
+         validatePassword,
          injectedUserController.editPassword
       );
       this.userRoute.get(

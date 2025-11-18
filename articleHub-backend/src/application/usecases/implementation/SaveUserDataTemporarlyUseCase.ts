@@ -11,6 +11,7 @@ export class SaveUserDataTemporarlyUseCase implements ISaveUserDataTemporarilyUs
       private _hasher: IHasher
    ) { }
    async execute(userData: signupData): Promise<commonOutput> {
+      console.log(userData)
      userData.password = await this._hasher.hash(userData.password)
      const saveUser = await this._userRepository.registerUser(userData)
       if (!saveUser) {

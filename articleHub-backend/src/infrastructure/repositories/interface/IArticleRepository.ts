@@ -1,6 +1,7 @@
 
 import { addArticle, articleAggregateByUser, editArticle, likeAggregateUser, likeData } from "../../../domain/entities/article";
 import { IArticleModelEntity } from "../../db/interface/article";
+import { IBlockModelEntity } from "../../db/interface/block";
 import { IDislikeModelEntity } from "../../db/interface/dislike";
 import { ILikeModelEntity } from "../../db/interface/like";
 
@@ -21,4 +22,5 @@ export interface IArticleRepository {
    removeLike(data:likeData):Promise<void>
    findDisLikeByArticleAndUser(data:likeData):Promise<IDislikeModelEntity | null>
    removeDisLike(data:likeData):Promise<void>
+   findBlockByUser(id:string):Promise<IBlockModelEntity[]>
 }

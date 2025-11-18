@@ -12,9 +12,9 @@ export class GetUserBaseArticleUseCase implements IGetUserBaseArticleUseCase {
       const articles = await this._articleRepository.findArticleByUserId(id)
       let data: getUserBaseArticleData[] = []
       for (let element of articles) {
-         const likeData = await this._articleRepository.findLikeByArticle(element._id)
-         const disLikeData = await this._articleRepository.findDisLikeByArticle(element._id)
-         const blockData = await this._articleRepository.findBlockByArticle(element._id)
+         const likeData = await this._articleRepository.findLikeByArticle(String(element._id))
+         const disLikeData = await this._articleRepository.findDisLikeByArticle(String(element._id))
+         const blockData = await this._articleRepository.findBlockByArticle(String(element._id))
          const mappedBlock = this._articlemapper.toUsernamefromAction(blockData)
          const mappedLike = this._articlemapper.toUsernamefromAction(likeData)
          const mappedDislike = this._articlemapper.toUsernamefromAction(disLikeData)

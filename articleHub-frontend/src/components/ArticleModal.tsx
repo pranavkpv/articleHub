@@ -1,14 +1,15 @@
 import { useState } from "react";
 import type { getPreferenceBaseArticleData } from "../interfaces/article";
-import { disLikeArticle, likeArticle } from "../api/action";
+import { blockArticle, disLikeArticle, likeArticle } from "../api/action";
 
 // Article Modal Component
 interface ArticleModalProps {
   article: getPreferenceBaseArticleData;
   onClose: () => void;
+  getPreferedArticle:()=>void
 }
 
-const ArticleModal: React.FC<ArticleModalProps> = ({ article, onClose }) => {
+const ArticleModal: React.FC<ArticleModalProps> = ({ article, onClose,getPreferedArticle }) => {
   const [liked, setLiked] = useState(false);
   const [disliked, setDisliked] = useState(false);
 
@@ -17,6 +18,8 @@ const ArticleModal: React.FC<ArticleModalProps> = ({ article, onClose }) => {
     if (response.success) {
       setLiked(!liked)
       setDisliked(false)
+      getPreferedArticle()
+      onClose()
     }
   };
 
@@ -25,6 +28,18 @@ const ArticleModal: React.FC<ArticleModalProps> = ({ article, onClose }) => {
     if (response.success) {
       setLiked(false)
       setDisliked(!disliked)
+      getPreferedArticle()
+      onClose()
+    }
+  };
+
+  const handleBlock = async () => {
+    const response = await blockArticle(article._id)
+    if (response.success) {
+      setLiked(false)
+      setDisliked(!disliked)
+      getPreferedArticle()
+      onClose()
     }
   };
 
@@ -43,9 +58,6 @@ const ArticleModal: React.FC<ArticleModalProps> = ({ article, onClose }) => {
           >
             ×
           </button>
-          <div className="absolute bottom-4 left-4 bg-indigo-600 text-white px-4 py-2 rounded-full text-sm font-bold shadow-lg">
-            {article.category}
-          </div>
         </div>
 
         <div className="p-6 max-h-96 overflow-y-auto">
@@ -77,7 +89,7 @@ const ArticleModal: React.FC<ArticleModalProps> = ({ article, onClose }) => {
                 }`}
               onClick={handleLike}
             >
-              ❤️ Like {article.like.length + (liked ? 1 : 0)}
+              ❤️ Like {article.like.length}
             </button>
             <button
               className={`flex items-center gap-2 px-6 py-3 rounded-xl font-semibold transition-all transform hover:scale-105 ${ disliked
@@ -86,9 +98,10 @@ const ArticleModal: React.FC<ArticleModalProps> = ({ article, onClose }) => {
                 }`}
               onClick={handleDislike}
             >
-              👎 Dislike {article.dislike.length + (disliked ? 1 : 0)}
+              👎 Dislike {article.dislike.length}
             </button>
             <button
+              onClick={handleBlock}
               className="flex items-center gap-2 px-6 py-3 rounded-xl bg-red-100 hover:bg-red-200 text-red-600 font-semibold transition-all transform hover:scale-105"
             >
               🚫 Block

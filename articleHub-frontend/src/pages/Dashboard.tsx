@@ -13,7 +13,6 @@ const Dashboard: React.FC = () => {
 
   const getPreferedArticle = async()=>{
     const response = await fetchPreferenceBaseArticleApi()
-    console.log(response)
     if(response.success){
       setArticles(response.data)
     }
@@ -56,6 +55,7 @@ const Dashboard: React.FC = () => {
         <ArticleModal
           article={selectedArticle}
           onClose={() => setSelectedArticle(null)}
+          getPreferedArticle={getPreferedArticle}
         />
       )}
     </div>

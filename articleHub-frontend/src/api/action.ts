@@ -20,3 +20,13 @@ export const disLikeArticle = async (id: string) => {
       return { success: false, message: axiosError.response?.data?.message || "Something went wrong", data: [] };
    }
 };
+
+export const blockArticle = async (id: string) => {
+   try {
+      const res = await authAxios.post(`/article/block`, {id:String(id)});
+      return res.data
+   } catch (error: unknown) {
+      const axiosError = error as AxiosError<{ message: string }>;
+      return { success: false, message: axiosError.response?.data?.message || "Something went wrong", data: [] };
+   }
+};

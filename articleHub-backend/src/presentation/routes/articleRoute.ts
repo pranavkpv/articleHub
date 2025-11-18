@@ -1,5 +1,6 @@
 import { Router } from 'express';
 import { injectedArticleController } from '../../infrastructure/di/article';
+import { validateArticle } from '../middleware/validations/article';
 
 export class articleRoute {
    public articleRoute: Router;
@@ -10,6 +11,7 @@ export class articleRoute {
    private setRoute() {
       this.articleRoute.post(
          '/add',
+         validateArticle,
          injectedArticleController.addArticle
       );
       this.articleRoute.post(
@@ -26,6 +28,7 @@ export class articleRoute {
       );
       this.articleRoute.put(
          '/edit/:id',
+         validateArticle,
          injectedArticleController.editArticle
       );
       this.articleRoute.patch(

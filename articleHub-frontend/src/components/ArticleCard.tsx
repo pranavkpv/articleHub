@@ -1,6 +1,5 @@
 import type { getPreferenceBaseArticleData } from "../interfaces/article";
 
-// Article Card Component
 interface ArticleCardProps {
   article: getPreferenceBaseArticleData;
   onClick: () => void;
@@ -17,9 +16,6 @@ const ArticleCard: React.FC<ArticleCardProps> = ({ article, onClick }) => (
         alt={article.title}
         className="w-full h-48 object-cover rounded-t-2xl"
       />
-      {/* <div className="absolute top-3 right-3 bg-indigo-600 text-white px-3 py-1 rounded-full text-xs font-bold shadow-lg">
-        {article.category}
-      </div> */}
     </div>
     <div className="p-5">
       <div className="flex items-center justify-between mb-3">
